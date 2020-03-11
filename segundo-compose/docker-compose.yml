@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  app_java:
+    image: appjava:2.0
+    container_name: container-appjava
+    ports:
+      - "9000:8080"
+    networks:
+      - network-db
+    volumes:
+      - type: bind
+        source: ./bind-folder
+        target: /output-container
+  
+  mysql:
+    image: mysql:5.7
+    container_name: db
+    ports:
+      - "3000:3306"
+    environment: 
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    volumes:
+      - volume-db:/var/lib/mysql
+    networks: 
+      - network-db
+networks: 
+  network-db:
+    driver: bridge
+volumes:
+  volume-db:
